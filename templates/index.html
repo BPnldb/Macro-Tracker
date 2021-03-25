@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+
+
+{% block title %}  Home  {% endblock %}
+
+{% block body %}
+<body>
+    <h1>Macro Tracker</h1>
+
+
+    <div class="container">
+        <div class="row">
+            <div class = "col md-12">
+                <div class=" jumbotron p-3">
+                    <h2>Macro Input <button type="button"  class="btn btn-primary float-right" data-toggle="modal"
+                    data-target="#Modal"> Add Calories</button></h2>
+
+
+
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    {% for message in messages %}
+
+                    <div class="alert alert-success alert-dismissable" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                            <span aria-hidden="true">x</span>
+                        </button>
+                        {{message}}
+                    </div>
+                    
+
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+
+
+                    <table class = "table table-hover table-boarded">
+                        <tr>
+                            <th>ID</th>
+                            <th>Food</th>
+                            <th>Proteins</th>
+                            <th>Fats</th>
+                            <th>Carbohydrates</th>
+                            <th>Total Calories</th>
+                            <th>Action</th>
+                        </tr>
+                        {% for row in macro_list %}
+
+
+                        <tr>
+                            <td>{{row.id}}</td>
+                            <td>{{row.food}}</td>
+                            <td>{{row.proteins}}</td>
+                            <td>{{row.fats}}</td>
+                            <td>{{(row.carbohydrates)}}</td>
+                            <td>{{(row.proteins*4)+(row.carbohydrates*4)+(row.fats *9)}}</td>
+                            <td>
+                                <a href="/update/{{row.id}}" class="btn btn-primary bt-m" data-toggle="modal" data-target="#modaledit{{row.id}}">edit</a>
+                                <a href="/delete/{{row.id}}" class="btn btn-danger bt-m" onclick="return confirm('Are You Sure To Delete?')">Delete</a>
+
+                            </td>
+
+
+
+                        </tr>
+                        <div id="modaledit{{row.id}}" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Update</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{{url_for('update')}}" method="POST">
+                                            <div class="form-group">
+                                                <label>Food:</label>
+                                                <input type="hidden" name="id" value="{{row.id}}">
+                                                <input type="text" class="form-control" name="food" value="{{row.food}}">
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                                <label>Proteins:</label>
+                                                <input type="number" class="form-control" name="proteins" value="{{row.proteins}}">
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                                <label>Fats:</label>
+                                                <input type="number" class="form-control" name="fats" value="{{row.fats}}">
+                                            </div>
+            
+                                            <div class="form-group">
+                                                <label>Carbohydrates:</label>
+                                                <input type="number" class="form-control" name="carbohydrates" value="{{row.carbohydrates}}">
+                                            </div>
+                                            <div class="form-group">
+                                                <button class="btn btn-primary" type="submit">Update Macros</button>
+                                            </div>
+                                        </form>
+            
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>   
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %} 
+
+
+
+
+
+                    </table>
+
+                </div>
+                <div id="Modal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Add Employees</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{{url_for('insert')}}" method="POST">
+                                    <div class="form-group">
+                                        <label>Food:</label>
+                                        <input type="text" class="form-control" name="food" required="1">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label>Proteins:</label>
+                                        <input type="number" class="form-control" name="proteins" required="1">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label>Fats:</label>
+                                        <input type="number" class="form-control" name="fats" required="1">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Carbohydrates:</label>
+                                        <input type="number" class="form-control" name="carbohydrates" required="1">
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-primary" type="submit">Add Macros</button>
+                                    </div>
+                                </form>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>   
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+</body>
+
+{% endblock %}
