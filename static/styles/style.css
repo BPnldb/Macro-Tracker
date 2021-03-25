@@ -1,0 +1,18 @@
+h1 {
+    color:black;
+    text-align:center;
+    background-image: url('/static/images/purplebg.jpg');
+    background-image:no-repeat;
+    background-size: 3000px 100px;
+}
+
+.container{
+    background-color:clear;
+}
+html, body{
+    
+    background-image: url('/static/images/purplebg.jpg');
+    background-repeat:no-repeat;
+    background-size: 3000px 1000px;
+    
+}
